@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Presenters;
+namespace App\FrontModule\Presenters;
 
-use App\Forms;
+use App\FrontModule\Forms;
 use Nette\Application\UI\Form;
 
 
@@ -11,10 +11,10 @@ final class SignPresenter extends BasePresenter
 	/** @persistent */
 	public $backlink = '';
 
-	/** @var Forms\SignInFormFactory */
+	/** @var Forms\FrontModule\SignInFormFactory */
 	private $signInFactory;
 
-	/** @var Forms\SignUpFormFactory */
+	/** @var Forms\FrontModule\SignUpFormFactory */
 	private $signUpFactory;
 
 

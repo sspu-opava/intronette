@@ -18,7 +18,7 @@
 
 
 {* for Bootstrap v3 *}
-{define bootstrap-form $formName}
+{define bootstrap3-form $formName}
 	<form n:name=$formName class=form-horizontal>
 	<ul class=error n:ifcontent>
 		<li n:foreach="$form->ownErrors as $error">{$error}</li>
@@ -35,6 +35,39 @@
 				{input $input class => form-control}
 			{elseif $input->getOption(type) === button}
 				{input $input class => "btn btn-default"}
+			{elseif $input->getOption(type) === checkbox}
+				<div class="checkbox">{input $input}</div>
+			{elseif $input->getOption(type) === radio}
+				<div class="radio">{input $input}</div>
+			{else}
+				{input $input}
+			{/if}
+
+			<span class=help-block n:ifcontent>{$input->error ?: $input->getOption(description)}</span>
+		</div>
+	</div>
+	</form>
+{/define}
+
+{* for Bootstrap v4 *}
+{define bootstrap4-form $formName}
+	<form n:name=$formName>
+	{if $form->ownErrors}	
+	<div class="alert alert-danger">
+		<ul class=error n:ifcontent>
+			<li n:foreach="$form->ownErrors as $error">{$error}</li>
+		</ul>
+	</div>
+	{/if}
+	<div n:foreach="$form->controls as $name => $input"
+		n:if="!$input->getOption(rendered) && $input->getOption(type) !== hidden"
+		n:class="form-group, row, $input->required ? required, $input->error ? has-error">
+		<div class="col-sm-3 control-label">{label $input}</div>
+		<div n:class="$input->getOption(type) === button ? offset-sm-3, col-sm-9">
+			{if $input->getOption(type) in [text, select, textarea]}
+				{input $input class => form-control}
+			{elseif $input->getOption(type) === button}
+				{input $input class => "btn btn-primary"}
 			{elseif $input->getOption(type) === checkbox}
 				<div class="checkbox">{input $input}</div>
 			{elseif $input->getOption(type) === radio}

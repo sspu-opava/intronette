@@ -6,7 +6,7 @@ parameters:
 
 
 application:
-	errorPresenter: Error
+	errorPresenter: Front:Error
 	mapping:
 		*: App\*Module\Presenters\*Presenter
 
@@ -25,7 +25,11 @@ database:
 
 services:
 	- App\Model\UserManager
-	- App\Forms\FormFactory
-	- App\Forms\SignInFormFactory
-	- App\Forms\SignUpFormFactory
+
+	- App\FrontModule\Forms\FormFactory
+	- App\FrontModule\Forms\SignInFormFactory
+	- App\FrontModule\Forms\SignUpFormFactory
+	- App\AdminModule\Forms\FormFactory
+	- App\AdminModule\Forms\UserProfileFormFactory
+
 	router: App\RouterFactory::createRouter

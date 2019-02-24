@@ -1,0 +1,80 @@
+{block content}
+    <div class="container">       
+        <div class="row">
+            <div class="col-12">
+                <h1 n:block=title>Registrace</h1>                
+            </div>            
+        </div>
+        <form n:name=signUpForm>
+        	{if $form->ownErrors}	
+            <div class="alert alert-danger">
+                <ul class=error n:ifcontent>
+                    <li n:foreach="$form->ownErrors as $error">{$error}</li>
+                </ul>
+            </div>
+            {/if}
+            <fieldset class="form-group row">
+                <legend class="col-form-legend col-12">Přihlašovací údaje</legend>
+            </fieldset>
+
+            <div class="form-group row">
+                <label n:name=username class="col-sm-3 col-form-label">Uživatelské jméno <span class="required">*</span></label>
+                <div class="col-sm-6">
+                    <input type="text" n:name=username class="form-control" placeholder="Uživatelské jméno">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label n:name=password class="col-sm-3 col-form-label">Heslo <span class="required">*</span></label>
+                <div class="col-sm-6">
+                    <input type="password" n:name=password class="form-control" placeholder="Zadejte heslo">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label n:name=password2 class="col-sm-3 col-form-label">Heslo (ověření) <span class="required">*</span></label>
+                <div class="col-sm-6">
+                    <input type="password" n:name=password2 class="form-control" placeholder="Zopakujte heslo">
+                </div>
+            </div>
+
+            <fieldset class="form-group row">
+                <legend class="col-form-legend col-12">Osobní údaje</legend>
+            </fieldset>
+            <div class="form-group row">
+                <label n:name=firstname class="col-sm-3 col-form-label">Jméno <span class="required">*</span></label>
+                <div class="col-sm-6">
+                    <input type="text" n:name=firstname class="form-control" placeholder="Jméno">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label n:name=surname class="col-sm-3 col-form-label">Příjmení <span class="required">*</span></label>
+                <div class="col-sm-6">
+                    <input type="text" n:name=surname class="form-control" placeholder="Příjmení">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label n:name=email class="col-sm-3 col-form-label">E-mail <span class="required">*</span></label>
+                <div class="col-sm-6">
+                    <input type="email" n:name=email class="form-control" placeholder="schranka@server.cz">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="offset-sm-3 col-sm-9">
+                    <button type="submit" n:name=send class="btn btn-primary">Zaregistrovat se</button>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-12">
+                <p>Máte již vytvořený účet? <a n:href="in">Přihlaste se.</a></p>
+            </div>            
+        </div>
+    </div>
+
+
+
+{*
+{import '../components/form.latte'}
+{include bootstrap4-form signUpForm}
+*}
+
+{* control signUpForm *}

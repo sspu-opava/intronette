@@ -19,7 +19,15 @@ final class UserManager implements Nette\Security\IAuthenticator
 		COLUMN_NAME = 'username',
 		COLUMN_PASSWORD_HASH = 'password',
 		COLUMN_EMAIL = 'email',
-		COLUMN_ROLE = 'role';
+		COLUMN_ROLE = 'role',
+		COLUMN_FIRSTNAME = 'firstname',
+		COLUMN_SURNAME = 'surname',
+		COLUMN_STREET = 'street',
+		COLUMN_CITY = 'city',
+		COLUMN_POSTCODE = 'postcode',
+		COLUMN_PHONE = 'phone',
+		COLUMN_INFO = 'info',
+		COLUMN_PHOTO = 'photo';
 
 
 	/** @var Nette\Database\Context */
@@ -62,6 +70,19 @@ final class UserManager implements Nette\Security\IAuthenticator
 		return new Nette\Security\Identity($row[self::COLUMN_ID], $row[self::COLUMN_ROLE], $arr);
 	}
 
+	/**
+	 * Get user.
+	 * @param  string
+	 * @param  string
+	 * @param  string
+	 * @return void
+	 * @throws DuplicateNameException
+	 */
+	public function get($id)
+	{
+		return $this->database->table(self::TABLE_NAME)->get($id);
+	}
+
 
 	/**
 	 * Adds new user.
@@ -71,19 +92,52 @@ final class UserManager implements Nette\Security\IAuthenticator
 	 * @return void
 	 * @throws DuplicateNameException
 	 */
-	public function add($username, $email, $password)
+	public function add($values)
 	{
-		Nette\Utils\Validators::assert($email, 'email');
+		Nette\Utils\Validators::assert($values['email'], 'email');
+		$user = [
+			self::COLUMN_NAME => $values['username'],
+			self::COLUMN_PASSWORD_HASH => Passwords::hash($values['password']),
+			self::COLUMN_EMAIL => $values['email'],
+			self::COLUMN_FIRSTNAME => $values['firstname'],
+			self::COLUMN_SURNAME => $values['surname'],
+		];
 		try {
-			$this->database->table(self::TABLE_NAME)->insert([
-				self::COLUMN_NAME => $username,
-				self::COLUMN_PASSWORD_HASH => Passwords::hash($password),
-				self::COLUMN_EMAIL => $email,
-			]);
+			$this->database->table(self::TABLE_NAME)->insert($user);
 		} catch (Nette\Database\UniqueConstraintViolationException $e) {
 			throw new DuplicateNameException;
 		}
 	}
+
+	/**
+	 * Edit user profile.
+	 * @param  string
+	 * @param  string
+	 * @param  string
+	 * @return void
+	 * @throws Exception
+	 */
+	public function updateProfile($values)
+	{
+		Nette\Utils\Validators::assert($values['email'], 'email');
+		$user = [
+			self::COLUMN_EMAIL => $values['email'],
+			self::COLUMN_FIRSTNAME => $values['firstname'],
+			self::COLUMN_SURNAME => $values['surname'],
+			self::COLUMN_STREET => $values['street'],
+			self::COLUMN_CITY => $values['city'],
+			self::COLUMN_POSTCODE => $values['postcode'],
+			self::COLUMN_PHONE => $values['phone'],
+			self::COLUMN_INFO => $values['info'],
+		];
+		if (isset($values['photo'])) $user[self::COLUMN_PHOTO] = $values['photo'];
+		try {
+			$this->database->table(self::TABLE_NAME)->get($values['id'])->update($user);
+		} catch (Nette\Database\Exception $e) {
+			throw new Exception;
+		}
+	}
+
 }
 
 
