@@ -1,0 +1,43 @@
+{block breadcrumb}
+	<li class="breadcrumb-item">
+		<a n:href="User:default">Uživatelé</a>
+	</li>
+	<li class="breadcrumb-item active">Seznam uživatelů</li>
+{/block breadcrumb}
+{block content}
+    <div class="container">       
+        <div class="row">
+            <div class="col-12">
+                <h1 n:block=title>Seznam uživatelů</h1>                
+            </div>            
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Uživatelské jméno</th>
+                            <th>Příjmení a jméno</th>
+                            <th>Role</th>
+                            <th>Zakázán</th>
+                            <th>Přihlášen</th>
+                            <th>Akce</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {foreach $data as $row}
+                        <tr>
+                            <td scope="row">{$row->username}</td>
+                            <td>{$row->surname} {$row->firstname}</td>
+                            <td>{$row->role}</td>
+                            <td>{$row->banned}</td>
+                            <td>{$row->logged}</td>
+                            <td><a n:href="password $row->id">Heslo</a> <a n:href="profile $row->id">Profil</a> <a n:href="delete $row->id">Smazat</a></td>
+                        </tr>
+                        {/foreach}
+                    </tbody>
+                </table>
+            </div>            
+        </div>
+
+    </div>
