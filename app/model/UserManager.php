@@ -71,12 +71,18 @@ final class UserManager implements Nette\Security\IAuthenticator
 	}
 
 	/**
-	 * Get user.
-	 * @param  string
-	 * @param  string
-	 * @param  string
+	 * Get all users.
 	 * @return void
-	 * @throws DuplicateNameException
+	 */
+	public function getAll()
+	{
+		return $this->database->table(self::TABLE_NAME)->fetchAll();
+	}
+
+	/**
+	 * Get user.
+	 * @param  int $id
+	 * @return void
 	 */
 	public function get($id)
 	{
@@ -86,9 +92,7 @@ final class UserManager implements Nette\Security\IAuthenticator
 
 	/**
 	 * Adds new user.
-	 * @param  string
-	 * @param  string
-	 * @param  string
+	 * @param  array $values
 	 * @return void
 	 * @throws DuplicateNameException
 	 */
@@ -111,9 +115,7 @@ final class UserManager implements Nette\Security\IAuthenticator
 
 	/**
 	 * Edit user profile.
-	 * @param  string
-	 * @param  string
-	 * @param  string
+	 * @param  array $values
 	 * @return void
 	 * @throws Exception
 	 */
@@ -133,6 +135,39 @@ final class UserManager implements Nette\Security\IAuthenticator
 		if (isset($values['photo'])) $user[self::COLUMN_PHOTO] = $values['photo'];
 		try {
 			$this->database->table(self::TABLE_NAME)->get($values['id'])->update($user);
+		} catch (Nette\Database\Exception $e) {
+			throw new Exception;
+		}
+	}
+
+	/**
+	 * Change user password.
+	 * @param  array $values
+	 * @return void
+	 * @throws Exception
+	 */
+	public function changePassword($id, $password)
+	{
+		$user = [
+			self::COLUMN_PASSWORD_HASH => Passwords::hash($password),
+		];
+		try {
+			$this->database->table(self::TABLE_NAME)->get($id)->update($user);
+		} catch (Nette\Database\Exception $e) {
+			throw new Exception;
+		}
+	}
+
+	/**
+	 * Delete user.
+	 * @param  array $id
+	 * @return void
+	 * @throws Exception
+	 */
+	public function delete($id)
+	{
+		try {
+			return $this->database->table(self::TABLE_NAME)->get($id)->delete();
 		} catch (Nette\Database\Exception $e) {
 			throw new Exception;
 		}

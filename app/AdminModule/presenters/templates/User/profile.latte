@@ -1,8 +1,14 @@
+{block breadcrumb}
+	<li class="breadcrumb-item">
+		<a n:href="User:default">Uživatelé</a>
+	</li>
+	<li class="breadcrumb-item active">Profil uživatele</li>
+{/block breadcrumb}
 {block content}
     <div class="container">       
         <div class="row">
             <div class="col-12">
-                <h1 n:block=title>Profil uživatele</h1>                
+                <h1 n:block=title>Profil uživatele <em>{$data->username}</em></h1>                
             </div>            
         </div>
         <form n:name=userProfileForm>
@@ -13,70 +19,78 @@
                 </ul>
             </div>
             {/if}
-            <fieldset class="form-group row">
-                <legend class="col-form-legend col-12">Osobní údaje</legend>
-            </fieldset>
-            <div class="form-group row">
-                <label n:name=firstname class="col-sm-3 col-form-label">Jméno <span class="required">*</span></label>
-                <div class="col-sm-6">
-                    <input type="text" n:name=firstname class="form-control" placeholder="Jméno">
+            <section id="basic-data" class="border p-4 mt-3 mb-3">
+                <fieldset class="form-group row bg-secondary text-center text-white p-2">
+                    <h4 class="col-form-legend col-12">Základní údaje</h4>
+                </fieldset>
+                <div class="form-group row">
+                    <label n:name=firstname class="col-sm-3 col-form-label">Jméno <span class="required">*</span></label>
+                    <div class="col-sm-6">
+                        <input type="text" n:name=firstname class="form-control" placeholder="Jméno">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label n:name=surname class="col-sm-3 col-form-label">Příjmení <span class="required">*</span></label>
-                <div class="col-sm-6">
-                    <input type="text" n:name=surname class="form-control" placeholder="Příjmení">
+                <div class="form-group row">
+                    <label n:name=surname class="col-sm-3 col-form-label">Příjmení <span class="required">*</span></label>
+                    <div class="col-sm-6">
+                        <input type="text" n:name=surname class="form-control" placeholder="Příjmení">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label n:name=email class="col-sm-3 col-form-label">E-mail <span class="required">*</span></label>
-                <div class="col-sm-6">
-                    <input type="email" n:name=email class="form-control" placeholder="schranka@server.cz">
+                <div class="form-group row">
+                    <label n:name=email class="col-sm-3 col-form-label">E-mail <span class="required">*</span></label>
+                    <div class="col-sm-6">
+                        <input type="email" n:name=email class="form-control" placeholder="schranka@server.cz">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label n:name=phone class="col-sm-3 col-form-label">Telefonní číslo</label>
-                <div class="col-sm-3">
-                    <input type="text" n:name=phone class="form-control" placeholder="+420 111 222 333">
+                <div class="form-group row">
+                    <label n:name=phone class="col-sm-3 col-form-label">Telefonní číslo</label>
+                    <div class="col-sm-3">
+                        <input type="text" n:name=phone class="form-control" placeholder="+420 111 222 333">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label n:name=street class="col-sm-3 col-form-label">Ulice</label>
-                <div class="col-sm-6">
-                    <input type="text" n:name=street class="form-control" placeholder="Ulice a číslo popisné">
+                <div class="form-group row">
+                    <label n:name=street class="col-sm-3 col-form-label">Ulice</label>
+                    <div class="col-sm-6">
+                        <input type="text" n:name=street class="form-control" placeholder="Ulice a číslo popisné">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label n:name=city class="col-sm-3 col-form-label">Město / obec</label>
-                <div class="col-sm-6">
-                    <input type="text" n:name=city class="form-control" placeholder="Název města / obce">
+                <div class="form-group row">
+                    <label n:name=city class="col-sm-3 col-form-label">Město / obec</label>
+                    <div class="col-sm-6">
+                        <input type="text" n:name=city class="form-control" placeholder="Název města / obce">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label n:name=postcode class="col-sm-3 col-form-label">PSČ</label>
-                <div class="col-sm-2">
-                    <input type="text" n:name=postcode class="form-control" placeholder="111 11">
+                <div class="form-group row">
+                    <label n:name=postcode class="col-sm-3 col-form-label">PSČ</label>
+                    <div class="col-sm-2">
+                        <input type="text" n:name=postcode class="form-control" placeholder="111 11">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label n:name=info class="col-sm-3 col-form-label">Informace o uživateli</label>
-                <div class="col-sm-9">
-                    <textarea class="form-control" n:name=info rows="6"></textarea>
+            </section>
+
+            <section id="personal-data" class="border p-4 mt-3 mb-3">
+                <fieldset class="form-group row bg-secondary text-center text-white p-2">
+                    <h4 class="col-form-legend col-12">Osobní nastavení</h4>
+                </fieldset>
+                <div class="form-group row">
+                    <label n:name=info class="col-sm-3 col-form-label">Informace o uživateli</label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" n:name=info rows="6"></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label n:name=photo class="col-sm-3 col-form-label">Portrét</label>
-                <div class="col-sm-3">
-                    <img src="{$data->photo|dataStream}" n:if="$data->photo">  
-                </div>            
-                <div class="offset-sm-3 col-sm-9">
-                    <input type="file" class="form-control-file" n:name=photo aria-describedby="fileHelpId">
-                    <small id="fileHelpId" class="form-text text-muted">Cosi</small>
+                <div class="form-group row">
+                    <label n:name=photo class="col-sm-3 col-form-label">Portrét</label>
+                    <div class="col-sm-3 mb-3">
+                        <img src="{$data->photo|dataStream}" class="img-fluid" alt="Profilové foto" n:if="$data->photo">  
+                    </div>            
+                    <div class="offset-sm-3 col-sm-9">
+                        <input type="file" class="form-control-file" n:name=photo aria-describedby="fileHelpId">
+                        <small id="fileHelpId" class="form-text text-muted">Cosi</small>
+                    </div>
                 </div>
-            </div>
+            </section>
 
             <div class="form-group row">
-                <div class="offset-sm-3 col-sm-9">
+                <div class="col-12 text-center">
                     <button type="submit" n:name=send class="btn btn-primary">Aktualizovat profil</button>
                 </div>
             </div>

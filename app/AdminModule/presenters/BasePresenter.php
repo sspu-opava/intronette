@@ -10,4 +10,12 @@ use Nette;
  */
 abstract class BasePresenter extends Nette\Application\UI\Presenter
 {
+	protected function startup()
+	{
+		parent::startup();
+
+        if (!$this->user->isLoggedIn()) {
+			$this->redirect(':Front:Sign:in');
+		}
+	}
 }

@@ -138,13 +138,10 @@
 
 				<!-- Breadcrumbs-->
 				<ol class="breadcrumb">
-					<li class="breadcrumb-item">
-						<a href="#">Dashboard</a>
-					</li>
-					<li class="breadcrumb-item active">Overview</li>
+					{block breadcrumb}{/block breadcrumb}
 				</ol>
 
-				<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+				<div n:foreach="$flashes as $flash" n:class="flash, alert, $flash->type">{$flash->message}</div>
 
 				{include content}
 
