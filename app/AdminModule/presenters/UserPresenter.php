@@ -57,6 +57,15 @@ final class UserPresenter extends BasePresenter
 			$this->flashMessage('Záznam se nepodařilo vymazat','alert-danger'); 	
 	}
 
+	public function handleBanned($id)
+	{
+		$this->userManager->banned($id);
+        if ($this->isAjax()) {
+			Debugger::barDump('ajax'); 
+		}
+		$this->redirect('User:list');		
+	}
+
 	public function renderDefault()
 	{
 		$this->template->anyVariable = 'any value';

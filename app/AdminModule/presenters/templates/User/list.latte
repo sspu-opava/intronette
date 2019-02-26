@@ -5,7 +5,7 @@
 	<li class="breadcrumb-item active">Seznam uživatelů</li>
 {/block breadcrumb}
 {block content}
-    <div class="container">       
+    <div class="container-fluid">       
         <div class="row">
             <div class="col-12">
                 <h1 n:block=title>Seznam uživatelů</h1>                
@@ -19,7 +19,7 @@
                             <th>Uživatelské jméno</th>
                             <th>Příjmení a jméno</th>
                             <th>Role</th>
-                            <th>Zakázán</th>
+                            <th>Aktivní</th>
                             <th>Přihlášen</th>
                             <th>Akce</th>
                         </tr>
@@ -30,9 +30,9 @@
                             <td scope="row">{$row->username}</td>
                             <td>{$row->surname} {$row->firstname}</td>
                             <td>{$row->role}</td>
-                            <td>{$row->banned}</td>
-                            <td>{$row->logged}</td>
-                            <td><a n:href="password $row->id">Heslo</a> <a n:href="profile $row->id">Profil</a> <a n:href="delete $row->id">Smazat</a></td>
+                            <td><a n:href="banned! $row->id">{if $row->banned}<i class="fas fa-ban text-danger"></i>{else}<i class="fas fa-check text-success"></i>{/if}</a></td>
+                            <td>{if $row->logged}<i class="fas fa-check text-success"></i>{else}<i class="fas fa-ban text-secondary"></i>{/if}</td>
+                            <td><a n:href="password $row->id">Heslo</a> <a n:href="profile $row->id"><i class="fas fa-user text-info"></i></a> <a n:href="delete $row->id"><i class="fas fa-trash text-danger"></i></a></td>
                         </tr>
                         {/foreach}
                     </tbody>

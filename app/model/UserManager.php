@@ -27,7 +27,9 @@ final class UserManager implements Nette\Security\IAuthenticator
 		COLUMN_POSTCODE = 'postcode',
 		COLUMN_PHONE = 'phone',
 		COLUMN_INFO = 'info',
-		COLUMN_PHOTO = 'photo';
+		COLUMN_PHOTO = 'photo',
+		COLUMN_LOGGED = 'logged',
+		COLUMN_BANNED = 'banned';
 
 
 	/** @var Nette\Database\Context */
@@ -168,6 +170,23 @@ final class UserManager implements Nette\Security\IAuthenticator
 	{
 		try {
 			return $this->database->table(self::TABLE_NAME)->get($id)->delete();
+		} catch (Nette\Database\Exception $e) {
+			throw new Exception;
+		}
+	}
+
+	/**
+	 * Banned / active user.
+	 * @param  array $id
+	 * @return void
+	 * @throws Exception
+	 */
+	public function banned($id)
+	{
+		try {
+			$row = $this->database->table(self::TABLE_NAME)->get($id);
+			$user = [self::COLUMN_BANNED => !$row->banned];
+			return $this->database->table(self::TABLE_NAME)->get($id)->update($user);
 		} catch (Nette\Database\Exception $e) {
 			throw new Exception;
 		}
