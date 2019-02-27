@@ -4,14 +4,18 @@
 	</li>
 	<li class="breadcrumb-item active">Profil uživatele</li>
 {/block breadcrumb}
+{block title}Profil uživatele <em>{$data->username}</em>{/block title}
 {block content}
+    {block modal}
     <div class="container">       
+     <!--
         <div class="row">
             <div class="col-12">
                 <h1 n:block=title>Profil uživatele <em>{$data->username}</em></h1>                
             </div>            
         </div>
-        <form n:name=userProfileForm>
+     -->   
+        <form n:name=userProfileForm class="ajax">
         	{if $form->ownErrors}	
             <div class="alert alert-danger">
                 <ul class=error n:ifcontent>
@@ -91,8 +95,9 @@
 
             <div class="form-group row">
                 <div class="col-12 text-center">
-                    <button type="submit" n:name=send class="btn btn-primary">Aktualizovat profil</button>
+                    <button type="submit" n:name=send class="btn btn-primary ajax">Aktualizovat profil</button>
                 </div>
             </div>
         </form>
     </div>
+    {/block}

@@ -70,8 +70,10 @@ final class UserProfileFormFactory
 			->addCondition(Form::FILLED)
 			->addRule(Form::IMAGE, 'Soubor musí být JPEG, PNG nebo GIF.')
 			->setRequired(false);
-		
-		$form->addSubmit('send', 'Aktualizovat profil');
+	
+		$form->getElementPrototype()->class[] = 'ajax';
+						
+		$form->addSubmit('send', 'Aktualizovat profil')->setAttribute('class', 'ajax');
 
 		$form->onSuccess[] = function (Form $form, $values) use ($onSuccess) {
 			Debugger::barDump($values);

@@ -188,6 +188,34 @@
 		</div>
 	</div>
 
+	{snippet modal}
+        {if $presenter->isAjax()}
+            {ifset #modal}
+                <div class="modal fade modal-ajax" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                {block modalHeader}
+                                    <h3 class="modal-title" id="myModalLabel">
+                                        {block|striptags}{include #title}{/block}
+                                    </h3>
+                                {/block}
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            </div>
+                            <div class="modal-body">
+                                {include #modal}
+                            </div>
+                            {ifset #modalFooter}
+                                <div class="modal-footer">
+                                    {include #modalFooter}
+                                </div>
+                            {/ifset}
+                        </div>
+                    </div>
+                </div>
+            {/ifset}
+        {/if}
+    {/snippet}
 
 	{block scripts}
 	<!-- Bootstrap core JavaScript-->
@@ -206,12 +234,30 @@
 	<script src="{$basePath}/js/sb-admin.min.js"></script>
 
 	<!-- Demo scripts for this page-->
-	<script src="{$basePath}/js/demo/datatables-demo.js"></script>
-	<script src="{$basePath}/js/demo/chart-area-demo.js"></script>
-
-	<script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
 	<script src="{$basePath}/vendor/nette-ajax/nette.ajax.js"></script>
-	<script src="{$basePath}/js/main.js"></script>
+	<script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
+   	<script>
+		$(function () {
+			$.nette.init();
+			$.nette.ext("modals", {
+				success: function(payload) {
+					if (payload.redirect) {
+						$(".modal-ajax").modal("hide");
+					} else if(payload.isModal) {
+						$('.modal-ajax').modal("show");
+					}
+				}
+			});
+
+			$.nette.ext("ajaxRedirect", {
+				success: function (payload) {
+					if (payload.redirect) {
+						$.nette.ajax(payload.redirect);
+					}
+				}
+			});
+		});	
+	</script>
 
 	{/block}
 </body>

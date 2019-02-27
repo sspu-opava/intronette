@@ -34,7 +34,7 @@ final class UserPresenter extends BasePresenter
 	protected function createComponentUserProfileForm()
 	{
 		return $this->userProfileFactory->create(function () {          
-			$this->redirect('Homepage:');
+			$this->redirect('list');
 		});
 	}
 
@@ -74,14 +74,22 @@ final class UserPresenter extends BasePresenter
 	public function renderList()
 	{
 		$this->template->data = $this->userManager->getAll();
+		if ($this->isAjax()) {
+            $this->redrawControl("list");
+        }
 	}
 
 	public function renderProfile($id)
 	{
-		Debugger::barDump($this); 
 		$data = $this->userManager->get($id);
 		$this->template->data = $data;
-        $this['userProfileForm']->setDefaults($data->toArray());
+		$this['userProfileForm']->setDefaults($data->toArray());
+
+		if ($this->isAjax()) {
+			Debugger::barDump('ajax'); 
+			$this->payload->isModal = TRUE;
+			$this->redrawControl("modal");
+		}
 	}
 
 	public function renderPassword($id)
