@@ -19,6 +19,8 @@ final class UserPresenter extends BasePresenter
 	/** @var Module\UserManager */
 	private $userManager;
 
+	/** @persistent */
+    public $backlink = '';
 
 	public function __construct(Forms\UserProfileFormFactory $userProfileFactory, Forms\UserPasswordFormFactory $userPasswordFactory, Model\UserManager $userManager)
 	{
@@ -44,17 +46,20 @@ final class UserPresenter extends BasePresenter
 	 */
 	protected function createComponentUserPasswordForm()
 	{
-		return $this->userPasswordFactory->create(function () {          
-			$this->redirect('Homepage:');
+		return $this->userPasswordFactory->create(function () {   
+			//Debugger::barDump($this->backlink); 
+			$this->restoreRequest($this->backlink);       
+			//$this->redirect('Homepage:');
 		});
 	}
 
-	public function actionDelete($id)
+	public function handleDelete($id)
 	{
 		if ($this->userManager->delete($id))		
 			$this->flashMessage('Záznam byl úspěšně smazán','alert-success');
 		else
 			$this->flashMessage('Záznam se nepodařilo vymazat','alert-danger'); 	
+		$this->redirect('User:list');	
 	}
 
 	public function handleBanned($id)
@@ -76,7 +81,7 @@ final class UserPresenter extends BasePresenter
 		$this->template->data = $this->userManager->getAll();
 		if ($this->isAjax()) {
             $this->redrawControl("list");
-        }
+		}
 	}
 
 	public function renderProfile($id)
@@ -96,6 +101,6 @@ final class UserPresenter extends BasePresenter
 	{
 		$data = $this->userManager->get($id);
 		$this->template->data = $data;
-        $this['userPasswordForm']->setDefaults($data->toArray());
+		$this['userPasswordForm']->setDefaults($data->toArray());
 	}
 }

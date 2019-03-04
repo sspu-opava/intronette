@@ -33,13 +33,16 @@
                             <td>{$row->role}</td>
                             <td><a n:href="banned! $row->id">{if $row->banned}<i class="fas fa-ban text-danger"></i>{else}<i class="fas fa-check text-success"></i>{/if}</a></td>
                             <td>{if $row->logged}<i class="fas fa-check text-success"></i>{else}<i class="fas fa-ban text-secondary"></i>{/if}</td>
-                            <td><a n:href="password $row->id">Heslo</a> <a n:href="profile $row->id" class="ajax"><i class="fas fa-user text-info"></i></a> <a n:href="delete $row->id"><i class="fas fa-trash text-danger"></i></a></td>
+                            <td><a n:href="password $row->id, backlink => $presenter->storeRequest()">Heslo</a> <a n:href="profile $row->id" class="ajax"><i class="fas fa-user text-info"></i></a> <a n:href="delete! $row->id"><i class="fas fa-trash text-danger"></i></a></td>
                         </tr>
                         {/foreach}
                     {/snippet}    
                     </tbody>
                 </table>
-            </div>            
+            </div>
+            <div class="col-12">
+                <a href="/sign/up?backlink={$presenter->storeRequest()}" class="btn btn-primary">Nový uživatel</a></a>
+            </div>                
         </div>
 
     </div>

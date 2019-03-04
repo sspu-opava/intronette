@@ -22,7 +22,6 @@ final class RouterFactory
 
         $router[] = $front = new RouteList('Front');
         $front[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default');
-
 		return $router;
 	}
 }

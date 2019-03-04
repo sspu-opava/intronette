@@ -17,7 +17,6 @@ final class SignPresenter extends BasePresenter
 	/** @var Forms\FrontModule\SignUpFormFactory */
 	private $signUpFactory;
 
-
 	public function __construct(Forms\SignInFormFactory $signInFactory, Forms\SignUpFormFactory $signUpFactory)
 	{
 		$this->signInFactory = $signInFactory;
@@ -33,7 +32,6 @@ final class SignPresenter extends BasePresenter
 	{
 		return $this->signInFactory->create(function () {
 			$this->restoreRequest($this->backlink);
-			$this->redirect('Homepage:');
 		});
 	}
 
@@ -45,7 +43,8 @@ final class SignPresenter extends BasePresenter
 	protected function createComponentSignUpForm()
 	{
 		return $this->signUpFactory->create(function () {
-			$this->redirect('Homepage:');
+			$this->restoreRequest($this->backlink);
+			//$this->redirect('Homepage:');
 		});
 	}
 
