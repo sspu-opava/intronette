@@ -1,0 +1,10 @@
+#
+# WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+# https://nette.org/security-warning
+#
+database:
+	dsn: 'mysql:host=127.0.0.1;dbname=intronette'
+	user: 'root'
+	password: ''
+	options:
+		lazy: yes
