@@ -1,0 +1,14 @@
+{block breadcrumb}
+	<li class="breadcrumb-item">
+		<a n:href="User:default">Uživatelé</a>
+	</li>
+	<li class="breadcrumb-item active">Nový uživatel</li>
+{/block breadcrumb}
+{block title}Nový uživatel{/block title}
+{block content}
+    {block modal}
+    <div class="container">
+        {import '../../../../FrontModule/presenters/templates/components/form.latte'}
+        {include bootstrap4-form newUserForm}
+    </div>
+    {/block}

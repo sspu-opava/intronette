@@ -13,7 +13,8 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <table class="table">
+            <div class='table-responsive'>
+                <table class="table table-striped table-hover table-sm" id="userlist">
                     <thead>
                         <tr>
                             <th>Uživatelské jméno</th>
@@ -33,15 +34,18 @@
                             <td>{$row->role}</td>
                             <td><a n:href="banned! $row->id">{if $row->banned}<i class="fas fa-ban text-danger"></i>{else}<i class="fas fa-check text-success"></i>{/if}</a></td>
                             <td>{if $row->logged}<i class="fas fa-check text-success"></i>{else}<i class="fas fa-ban text-secondary"></i>{/if}</td>
-                            <td><a n:href="password $row->id, backlink => $presenter->storeRequest()">Heslo</a> <a n:href="profile $row->id" class="ajax"><i class="fas fa-user text-info"></i></a> <a n:href="delete! $row->id"><i class="fas fa-trash text-danger"></i></a></td>
+                            <td><a n:href="password $row->id, backlink => $presenter->storeRequest()" class="ajax">Heslo</a> 
+                            <a n:href="profile $row->id" class="ajax"><i class="fas fa-user text-info"></i></a>
+                            <a href="#" data-toggle="modal" data-target="#confirm" data-title="Odstranit účet" data-message="Chcete opravdu odstranit uživatele <b>{$row->username}</b>?" data-link="{link delete! $row->id}"><i class="fas fa-trash text-danger"></i></a></td>
                         </tr>
                         {/foreach}
                     {/snippet}    
                     </tbody>
                 </table>
+                </div>
             </div>
             <div class="col-12">
-                <a href="/sign/up?backlink={$presenter->storeRequest()}" class="btn btn-primary">Nový uživatel</a></a>
+                <a n:href="new" class="btn btn-primary ajax">Nový uživatel</a>
             </div>                
         </div>
 
@@ -50,6 +54,7 @@
 {block scripts}
 	{include parent}
    	<script>
+        var link = '';
 		$(function () {
 			$.nette.init();
 			$.nette.ext("modals", {
@@ -69,6 +74,17 @@
 					}
 				}
 			});
+
+            $('#userlist').DataTable();
+            $('.dataTables_length').addClass('bs-select');
+
+            $('#confirm').on('show.bs.modal', function (event) {
+                var modal = $(this);
+                modal.find('.modal-title').text($(event.relatedTarget).data('title'));
+                modal.find('.modal-body').html($(event.relatedTarget).data('message'));
+                modal.find('.modal-footer').html('<a href="'+$(event.relatedTarget).data('link')+'" class="btn btn-danger">Ano</a> <button type="button" class="btn btn-secondary" data-dismiss="modal">Ne</button>');
+            });
+            
 		});	
 	</script>
 {/block}

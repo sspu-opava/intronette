@@ -74,6 +74,7 @@ final class UserProfileFormFactory
 		$form->getElementPrototype()->class[] = 'ajax';
 						
 		$form->addSubmit('send', 'Aktualizovat profil')->setAttribute('class', 'ajax');
+		/*$form->getElementPrototype()->onSubmit = 'return Nette.validateForm(this) ? confirm(\'Opravdu odeslat?\') : false';*/
 
 		$form->onSuccess[] = function (Form $form, $values) use ($onSuccess) {
 			Debugger::barDump($values);

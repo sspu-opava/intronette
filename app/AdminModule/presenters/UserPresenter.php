@@ -16,16 +16,20 @@ final class UserPresenter extends BasePresenter
 	/** @var Forms\UserPasswordFormFactory */
 	private $userPasswordFactory;
 
+	/** @var Forms\NewUserFormFactory */
+	private $newUserFactory;
+
 	/** @var Module\UserManager */
 	private $userManager;
 
 	/** @persistent */
     public $backlink = '';
 
-	public function __construct(Forms\UserProfileFormFactory $userProfileFactory, Forms\UserPasswordFormFactory $userPasswordFactory, Model\UserManager $userManager)
+	public function __construct(Forms\UserProfileFormFactory $userProfileFactory, Forms\UserPasswordFormFactory $userPasswordFactory, Forms\NewUserFormFactory $newUserFactory, Model\UserManager $userManager)
 	{
 		$this->userProfileFactory = $userProfileFactory;
 		$this->userPasswordFactory = $userPasswordFactory;
+		$this->newUserFactory = $newUserFactory;
 		$this->userManager = $userManager;
 	}
 
@@ -50,6 +54,17 @@ final class UserPresenter extends BasePresenter
 			//Debugger::barDump($this->backlink); 
 			$this->restoreRequest($this->backlink);       
 			//$this->redirect('Homepage:');
+		});
+	}
+
+	/**
+	 * New user form factory.
+	 * @return Form
+	 */
+	protected function createComponentNewUserForm()
+	{
+		return $this->newUserFactory->create(function () {   
+			$this->redirect('list');
 		});
 	}
 
@@ -91,7 +106,6 @@ final class UserPresenter extends BasePresenter
 		$this['userProfileForm']->setDefaults($data->toArray());
 
 		if ($this->isAjax()) {
-			Debugger::barDump('ajax'); 
 			$this->payload->isModal = TRUE;
 			$this->redrawControl("modal");
 		}
@@ -102,5 +116,18 @@ final class UserPresenter extends BasePresenter
 		$data = $this->userManager->get($id);
 		$this->template->data = $data;
 		$this['userPasswordForm']->setDefaults($data->toArray());
+
+		if ($this->isAjax()) {
+			$this->payload->isModal = TRUE;
+			$this->redrawControl("modal");
+		}
 	}
+
+	public function renderNew()
+	{
+		if ($this->isAjax()) {
+			$this->payload->isModal = TRUE;
+			$this->redrawControl("modal");
+		}
+	}	
 }

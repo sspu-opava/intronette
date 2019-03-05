@@ -32,5 +32,6 @@ services:
 	- App\AdminModule\Forms\FormFactory
 	- App\AdminModule\Forms\UserProfileFormFactory
 	- App\AdminModule\Forms\UserPasswordFormFactory
+	- App\AdminModule\Forms\NewUserFormFactory
 
 	router: App\RouterFactory::createRouter

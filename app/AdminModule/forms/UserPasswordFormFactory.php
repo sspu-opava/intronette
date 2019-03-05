@@ -45,7 +45,9 @@ final class UserPasswordFormFactory
 			->setRequired('Zopakujte, prosím, heslo kvůli ověření')
 			->addRule($form::EQUAL, 'Zadaná hesla se neshodují!', $passwordInput);
 		
-		$form->addSubmit('send', 'Změnit heslo');
+		$form->getElementPrototype()->class[] = 'ajax';
+
+		$form->addSubmit('send', 'Změnit heslo')->setAttribute('class', 'ajax');
 
 		$form->onSuccess[] = function (Form $form, $values) use ($onSuccess) {
 			Debugger::barDump($values);

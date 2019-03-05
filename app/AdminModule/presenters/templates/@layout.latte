@@ -20,6 +20,9 @@
 
 	<!-- Page level plugin CSS-->
 	<link href="{$basePath}/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+	
+	<!-- Material Design Bootstrap -->
+  	<link href="{$basePath}/vendor/mdb/css/mdb.min.css" rel="stylesheet">
 
 	<!-- Custom styles for this template-->
 	<link href="{$basePath}/css/sb-admin.css" rel="stylesheet">
@@ -188,39 +191,61 @@
 		</div>
 	</div>
 
+	<!-- Modal -->
+	<div class="modal fade" id="confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-danger">
+					<h5 class="modal-title text-white" id="exampleModalLabel">Modal title</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true" class="text-white">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					...
+				</div>
+				<div class="modal-footer">
+					...
+				</div>
+			</div>
+		</div>
+	</div>
+
 	{snippet modal}
-        {if $presenter->isAjax()}
-            {ifset #modal}
-                <div class="modal fade modal-ajax" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-xl" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                {block modalHeader}
-                                    <h3 class="modal-title" id="myModalLabel">
-                                        {block|striptags}{include #title}{/block}
-                                    </h3>
-                                {/block}
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            </div>
-                            <div class="modal-body">
-                                {include #modal}
-                            </div>
-                            {ifset #modalFooter}
-                                <div class="modal-footer">
-                                    {include #modalFooter}
-                                </div>
-                            {/ifset}
-                        </div>
-                    </div>
-                </div>
-            {/ifset}
-        {/if}
-    {/snippet}
+	{if $presenter->isAjax()}
+	{ifset #modal}
+	<div class="modal fade modal-ajax" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg-info text-white">
+					{block modalHeader}
+					<h3 class="modal-title" id="myModalLabel">
+						{block|striptags}{include #title}{/block}
+					</h3>
+					{/block}
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				</div>
+				<div class="modal-body">
+					{include #modal}
+				</div>
+				{ifset #modalFooter}
+				<div class="modal-footer">
+					{include #modalFooter}
+				</div>
+				{/ifset}
+			</div>
+		</div>
+	</div>
+	{/ifset}
+	{/if}
+	{/snippet}
 
 	{block scripts}
 	<!-- Bootstrap core JavaScript-->
 	<script src="{$basePath}/vendor/jquery/jquery.min.js"></script>
 	<script src="{$basePath}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="{$basePath}/vendor/mdb/js/mdb.js"></script>
+
 
 	<!-- Core plugin JavaScript-->
 	<script src="{$basePath}/vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -235,30 +260,15 @@
 
 	<!-- Demo scripts for this page-->
 	<script src="{$basePath}/vendor/nette-ajax/nette.ajax.js"></script>
+	<!--
+	<script src="{$basePath}/vendor/nette-ajax/extensions/confirm.ajax.js"></script>
+	-->
 	<script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
-   	<script>
-		$(function () {
-			$.nette.init();
-			$.nette.ext("modals", {
-				success: function(payload) {
-					if (payload.redirect) {
-						$(".modal-ajax").modal("hide");
-					} else if(payload.isModal) {
-						$('.modal-ajax').modal("show");
-					}
-				}
-			});
-
-			$.nette.ext("ajaxRedirect", {
-				success: function (payload) {
-					if (payload.redirect) {
-						$.nette.ajax(payload.redirect);
-					}
-				}
-			});
-		});	
+	<script>
+		$(function () {});
 	</script>
 
 	{/block}
 </body>
+
 </html>
